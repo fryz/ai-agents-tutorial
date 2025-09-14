@@ -3,7 +3,7 @@
 ## Goals
 
 1. Build an AI Agent end-to-end using:
-    * CrewAI
+    * CrewAI for multi-agent orchestration
     * MCP servers for tool calling
 2. Get an understanding of how AI Agents work in practice
 3. Learn techniques for developing using AI Assisted tools
@@ -21,7 +21,7 @@ $ pip3 install virtualenv
 $ virtualenv .venv -p python313
 ```
 
-2. It will be helpful to have docker installed.
+2. We will be using Docker for MCP server hosting. 
 
 3. It will be useful to have an AI-assisted coding tool, like Cursor, Claude Code, etc.
 
@@ -29,12 +29,21 @@ $ virtualenv .venv -p python313
 
 ## Syllabus
 
-1. Install and set up Crew AI
+1. Hello World with Crew AI
+  1. Setup dependencies and walk through Crew API
+  2. Learn about Tools and integrate a Web Search tool
 
-2. Learn about Tools and integrate a Web Search tool
+2. MCP Server Integration
+  1. Intro to MCP
+  2. Learn where to find MCP servers
+  3. Integrate Crew AI Agent with MCP Server
 
-3. Build a multi-agent Crew
+3. Multi-agent setup
+  1. Intro to orchestration and task management
+  2. Multi-agents with Crew AI
+  3. Observability side-quest
 
-4. Learn about MCP servers and setup an MCP server for your Agent
-
-5. Explore building a UI
+4. Explore building a UI
+  1. Intro to V0 and Vercel
+  2. Prompt engineering for a good UI 
+  3. Running your UI Locally or hosted in Vercel
