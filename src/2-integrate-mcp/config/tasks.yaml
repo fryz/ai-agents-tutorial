@@ -1,0 +1,69 @@
+research_task:
+  description: >
+    Conduct a thorough research of {company_name} and prepare a brief that will be used by an Account Executive to present to a potential client.
+    Make sure to only utilize information that is relevant within the current year 2025.
+    Focus on information such as:
+    - Company description
+    - Company goals
+    - Company performance
+    - Company competitors
+    - Company market position
+    - Company financials
+    - Company news
+  expected_output: >
+    A list of 10 bullet points of the most relevant information about {company_name}.
+  agent: analyst
+
+reporting_task:
+  description: >
+    Review the content you received and expand on it to create a detailed report that will be used by an Account Executive to present to a potential client.
+    Make sure the report is detailed and contains all the relevant information about {company_name}.
+    
+    After creating the report, use the Notion MCP Tool (API-post-page) to create a new document in Notion with the report content.
+    
+    IMPORTANT: The basic page creation worked! Now try to add content using the API-patch-page tool.
+    
+    STEP 1: Create the page with just the title:
+    {
+      "parent": {"page_id": "26d1d37e9a10806b807aec4b2c9f6d62"},
+      "properties": {
+        "title": [{"text": {"content": "{company_name} Comprehensive Report (2025)"}}]
+      }
+    }
+    
+    STEP 2: Use API-patch-page to add content. The correct schema for API-patch-page is:
+    {
+      "page_id": "[page_id_from_step_1]",
+      "properties": {
+        "title": [{"text": {"content": "{company_name} Comprehensive Report (2025)"}}]
+      }
+    }
+    
+    STEP 3: Use API-patch-block-children to add content blocks. NOTE: This tool only supports "paragraph" and "bulleted_list_item" types, NOT heading blocks.
+    
+    Use markdown-style headers within paragraph content:
+    {
+      "block_id": "[page_id_from_step_1]",
+      "children": [
+        {
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [{"type": "text", "text": {"content": "## Executive Summary\nYour content here"}}]
+          }
+        },
+        {
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [{"type": "text", "text": {"content": "## Market Position\nYour content here"}}]
+          }
+        }
+      ]
+    }
+    
+    IMPORTANT: The API-patch-block-children tool only supports paragraph and bulleted_list_item blocks. Use markdown headers (##, ###) within the paragraph content to create section headers.
+    
+    If none of the tools work for adding content, create the page with just the title and include the full report content in the expected_output instead.
+  expected_output: >
+    A detailed report of the most relevant information about {company_name}, formatted in Markdown, and stored as a new document in Notion using the API-post-page tool.
+  agent: analyst
+  output_file: report.md
