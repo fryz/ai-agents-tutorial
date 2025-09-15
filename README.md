@@ -25,6 +25,10 @@ $ virtualenv .venv -p python313
 
 3. It will be useful to have an AI-assisted coding tool, like Cursor, Claude Code, etc.
 
+4. You will need to create API keys for 
+  * OpenAI - https://platform.openai.com/api-keys
+  * Serper - https://serper.dev/
+
 ## Syllabus
 
 1. Hello World with Crew AI
