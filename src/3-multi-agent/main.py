@@ -94,7 +94,8 @@ class ResearchFlow(Flow[ResearchFlowState]):
         role = "Researcher",
         goal = f"Research the company {self.state.company_name} and provide a report on the company",
         backstory = "You are a researcher who is responsible for researching a company and providing a report on the company",
-        tools = [SerperDevTool()] + mcp_tools,
+        tools = [SerperDevTool()] + [tool for tool in mcp_tools if "API-" not in tool.name],
+        verbose=True,
       )
 
       query = f"""
@@ -122,7 +123,8 @@ class ResearchFlow(Flow[ResearchFlowState]):
         role = "Reviewer",
         goal = f"Review the research results for the company {self.state.company_name} and provide feedback on the research",
         backstory = "You are a reviewer who is responsible for reviewing the research results for a company and providing feedback on the research",
-        tools = [SerperDevTool()] + mcp_tools,
+        tools = [SerperDevTool()] + [tool for tool in mcp_tools if "API-" not in tool.name],
+        verbose=True,
       )
       
       query = f"""
@@ -152,13 +154,17 @@ class ResearchFlow(Flow[ResearchFlowState]):
         role = "Reporter",
         goal = f"Report the research results for the company {self.state.company_name} and provide a report on the company",
         backstory = "You are a reporter who is responsible for reporting the research results for a company and providing a report on the company",
-        tools = mcp_tools,
+        tools = [tool for tool in mcp_tools if "API-" in tool.name],
+        verbose=True,
       )
 
-      query = """
+      query = f"""
       Review the content you received and expand on it to create a detailed report that will be used by an Account Executive to present to a potential client.
       Make sure the report is detailed and contains all the relevant information about $COMPANY_NAME
-      
+      """ + f"""
+      Content:
+      {"\n".join([task.research_results for task in self.state.completed_tasks])}
+      """ + """
       After creating the report, use the Notion MCP Tool (API-post-page) to create a new document in Notion with the report content.
       
       IMPORTANT: The basic page creation worked! Now try to add content using the API-patch-page tool.
