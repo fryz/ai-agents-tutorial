@@ -5,6 +5,14 @@ from crewai_tools import SerperDevTool, MCPServerAdapter
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 
+
+def filter_out_notion_tools(tools):
+  return [tool for tool in tools if "API-" not in tool.name]
+
+def filter_only_notion_tools(tools):
+  return [tool for tool in tools if "API-" in tool.name]
+
+
 @CrewBase
 class BDAnalystCrew():
   """BD Analyst crew"""
@@ -26,7 +34,17 @@ class BDAnalystCrew():
     return Agent(
       config=self.agents_config['analyst'], # type: ignore[index]
       verbose=True,
-      tools=[SerperDevTool()] + self.get_mcp_tools()  # Add MCP tools back
+      tools=[SerperDevTool()] + filter_out_notion_tools(self.get_mcp_tools()),
+      reasoning=True,
+      max_reasoning_attempts=3
+    )
+
+  @agent
+  def reporter(self) -> Agent:
+    return Agent(
+      config=self.agents_config['reporter'], # type: ignore[index]
+      verbose=True,
+      tools=filter_only_notion_tools(self.get_mcp_tools()),
     )
 
   @task
@@ -39,6 +57,7 @@ class BDAnalystCrew():
   def reporting_task(self) -> Task:
     return Task(
       config=self.tasks_config['reporting_task'], # type: ignore[index]
+      context=[self.research_task()],
     )
 
   @crew
@@ -49,6 +68,8 @@ class BDAnalystCrew():
       tasks=self.tasks, # Automatically created by the @task decorator
       process=Process.sequential,
       verbose=True,
+      planning=True,
+      planning_llm='gpt-4o',
     )
 
 

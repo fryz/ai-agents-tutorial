@@ -25,8 +25,6 @@ $ virtualenv .venv -p python313
 
 3. It will be useful to have an AI-assisted coding tool, like Cursor, Claude Code, etc.
 
-4. Sign up for [a V0 account](https://v0.app)
-
 ## Syllabus
 
 1. Hello World with Crew AI
@@ -41,9 +39,3 @@ $ virtualenv .venv -p python313
 3. Multi-agent setup
   1. Intro to orchestration and task management
   2. Multi-agents with Crew AI
-  3. Observability side-quest
-
-4. Explore building a UI
-  1. Intro to V0 and Vercel
-  2. Prompt engineering for a good UI 
-  3. Running your UI Locally or hosted in Vercel
